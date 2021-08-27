@@ -1130,6 +1130,7 @@
                   </select>
                   <div id="categories-list" class="well well-sm" style="height: 200px; overflow: auto;">
                   </div>
+                  <button type="button" class="btn btn-success" id="categories-list-add-all-btn">{{ button_add_all}}</button>
                 </div>
               </div>
               <div class="form-group">
@@ -1150,6 +1151,7 @@
                       </div>
                     {% endfor %}
                   </div>
+                  <button type="button" class="btn btn-danger" id="product-associated-clear-btn">{{ button_clear }}</button>
                 </div>
               </div>
             </div>
@@ -1168,6 +1170,25 @@
   <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
   <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
   <script type="text/javascript"><!--
+  $('#product-associated-clear-btn').on('click', function () {
+    $(this).parent().find('#product-associated').html('')
+  })
+
+  $('#categories-list-add-all-btn').on('click', function () {
+    let productList = $(this).parent().find('#categories-list').find('div')
+
+    $(productList).each(function (index, item) {
+      let productId = $(item).find('input').val()
+      let productName = $(item).find('span').text()
+
+      $('#product-associated' + productId).remove();
+
+      $('#product-associated').append('<div id="product-associated' + productId + '"><i class="fa fa-minus-circle"></i> ' + productName + '<input type="hidden" name="product_associated[]" value="' + productId + '" /></div>');
+
+      $(item).remove();
+    })
+  })
+
   // Category
   $('select[name=\'categories_list\']').on('change', function() {
     let category_id = $(this).val()

@@ -86,6 +86,9 @@ $_['entry_categories']       = 'Категории';
 $_['entry_selected_products']= 'Выбранные товары';
 $_['entry_associated']       = 'Связанные товары';
 
+// Button
+$_['button_add_all']         = 'Добавить все';
+
 // Help
 $_['help_sku']               = 'SKU или код производителя';
 $_['help_upc']               = 'Универсальный код товара';
