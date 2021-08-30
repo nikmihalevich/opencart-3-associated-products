@@ -116,6 +116,8 @@ class ModelCatalogProduct extends Model {
             foreach ($data['product_associated'] as $associated_id) {
                 $this->db->query("DELETE FROM " . DB_PREFIX . "product_associated WHERE product_id = '" . (int)$product_id . "' AND associated_id = '" . (int)$associated_id . "'");
                 $this->db->query("INSERT INTO " . DB_PREFIX . "product_associated SET product_id = '" . (int)$product_id . "', associated_id = '" . (int)$associated_id . "'");
+                $this->db->query("DELETE FROM " . DB_PREFIX . "product_associated WHERE product_id = '" . (int)$associated_id . "' AND associated_id = '" . (int)$product_id . "'");
+                $this->db->query("INSERT INTO " . DB_PREFIX . "product_associated SET product_id = '" . (int)$associated_id . "', associated_id = '" . (int)$product_id . "'");
             }
         }
 
@@ -276,11 +278,14 @@ class ModelCatalogProduct extends Model {
 		}
 
         $this->db->query("DELETE FROM " . DB_PREFIX . "product_associated WHERE product_id = '" . (int)$product_id . "'");
+        $this->db->query("DELETE FROM " . DB_PREFIX . "product_associated WHERE associated_id = '" . (int)$product_id . "'");
 
         if (isset($data['product_associated'])) {
             foreach ($data['product_associated'] as $associated_id) {
                 $this->db->query("DELETE FROM " . DB_PREFIX . "product_associated WHERE product_id = '" . (int)$product_id . "' AND associated_id = '" . (int)$associated_id . "'");
                 $this->db->query("INSERT INTO " . DB_PREFIX . "product_associated SET product_id = '" . (int)$product_id . "', associated_id = '" . (int)$associated_id . "'");
+                $this->db->query("DELETE FROM " . DB_PREFIX . "product_associated WHERE product_id = '" . (int)$associated_id . "' AND associated_id = '" . (int)$product_id . "'");
+                $this->db->query("INSERT INTO " . DB_PREFIX . "product_associated SET product_id = '" . (int)$associated_id . "', associated_id = '" . (int)$product_id . "'");
             }
         }
 
