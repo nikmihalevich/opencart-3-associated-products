@@ -1198,6 +1198,7 @@
       dataType: 'json',
       success: function(json) {
         $('input[name=\'categories_list\']').val('');
+        $('#categories-list').html('')
 
         let data = $.map(json, function(item) {
           return {
