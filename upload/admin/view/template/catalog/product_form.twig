@@ -1124,7 +1124,7 @@
                     <option value="0">{{ text_none }}</option>
 
                       {% for category in all_categories %}
-                        <option value="{{ category.category_id }}">{{ category.name }}</option>
+                        <option value="{{ category.category_id }}">{{ category.name }} --- {{ text_products }}{{ category.total_products }}</option>
                       {% endfor %}
 
                   </select>
@@ -1171,7 +1171,21 @@
   <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
   <script type="text/javascript"><!--
   $('#product-associated-clear-btn').on('click', function () {
-    $(this).parent().find('#product-associated').html('')
+    let productList = $('#product-associated div')
+
+    productList.each(function (index, item) {
+      let productId = $(item).find('input').val()
+      let productName = $(item).find('span').text()
+      let categoryId = $(item).find('input').attr('data-category-id')
+
+      if (categoryId === $('select[name=\'categories_list\']').val()) {
+        $('#categories-list' + productId).remove();
+
+        $('#categories-list').append('<div id="categories-list' + productId + '"><i class="fa fa-plus-circle"></i> <span>' + productName + '</span><input type="hidden" name="product_category[]" value="' + productId + '" data-category-id="' + categoryId + '" /></div>');
+      }
+
+      $(item).remove()
+    })
   })
 
   $('#categories-list-add-all-btn').on('click', function () {
@@ -1180,10 +1194,11 @@
     $(productList).each(function (index, item) {
       let productId = $(item).find('input').val()
       let productName = $(item).find('span').text()
+      let categoryId = $(item).find('input').attr('data-category-id')
 
       $('#product-associated' + productId).remove();
 
-      $('#product-associated').append('<div id="product-associated' + productId + '"><i class="fa fa-minus-circle"></i> ' + productName + '<input type="hidden" name="product_associated[]" value="' + productId + '" /></div>');
+      $('#product-associated').append('<div id="product-associated' + productId + '"><i class="fa fa-minus-circle"></i> <span>' + productName + '<span><input type="hidden" name="product_associated[]" value="' + productId + '" data-category-id="' + categoryId + '" /></div>');
 
       $(item).remove();
     })
@@ -1203,14 +1218,14 @@
         let data = $.map(json, function(item) {
           return {
             label: item['name'],
-            value: item['product_id']
+            value: item['product_id'],
           }
         })
 
         for (let i = 0; i < data.length; i++) {
           $('#categories-list' + data[i]['value']).remove();
 
-          $('#categories-list').append('<div id="categories-list' + data[i]['value'] + '"><i class="fa fa-plus-circle"></i> <span>' + data[i]['label'] + '</span><input type="hidden" name="product_category[]" value="' + data[i]['value'] + '" /></div>');
+          $('#categories-list').append('<div id="categories-list' + data[i]['value'] + '"><i class="fa fa-plus-circle"></i> <span>' + data[i]['label'] + '</span><input type="hidden" name="product_category[]" value="' + data[i]['value'] + '" data-category-id="' + category_id + '" /></div>');
         }
       }
     });
@@ -1219,10 +1234,11 @@
   $('#categories-list').delegate('.fa-plus-circle', 'click', function() {
     let productId = $(this).parent().find('input').val();
     let productName = $(this).parent().find('span').text();
+    let categoryId = $(this).parent().find('input').attr('data-category-id');
 
     $('#product-associated' + productId).remove();
 
-    $('#product-associated').append('<div id="product-associated' + productId + '"><i class="fa fa-minus-circle"></i> ' + productName + '<input type="hidden" name="product_associated[]" value="' + productId + '" /></div>');
+    $('#product-associated').append('<div id="product-associated' + productId + '"><i class="fa fa-minus-circle"></i> <span>' + productName + '</span><input type="hidden" name="product_associated[]" value="' + productId + '" data-category-id="' + categoryId + '" /></div>');
 
     $(this).parent().remove();
   });
@@ -1253,6 +1269,16 @@
   });
 
   $('#product-associated').delegate('.fa-minus-circle', 'click', function() {
+    let productId = $(this).parent().find('input').val();
+    let productName = $(this).parent().find('span').text();
+    let categoryId = $(this).parent().find('input').attr('data-category-id');
+
+    if (categoryId === $('select[name=\'categories_list\']').val()) {
+      $('#categories-list' + productId).remove();
+
+      $('#categories-list').append('<div id="categories-list' + productId + '"><i class="fa fa-plus-circle"></i> <span>' + productName + '</span><input type="hidden" name="product_category[]" value="' + productId + '" data-category-id="' + categoryId + '" /></div>');
+    }
+
     $(this).parent().remove();
   });
 
