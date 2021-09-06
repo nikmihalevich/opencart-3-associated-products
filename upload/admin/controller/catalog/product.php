@@ -1186,7 +1186,8 @@ class ControllerCatalogProduct extends Controller {
         $data['all_categories'] = $this->model_catalog_category->getCategories();
 
         foreach ($data['all_categories'] as $key => $category) {
-            $data['all_categories'][$key]['total_products'] = $this->model_catalog_product->getTotalProductsByCategoryId($category['category_id']);
+            $total_products = $this->model_catalog_product->getTotalProductsByCategoryId($category['category_id']);
+            $data['all_categories'][$key]['total_products'] = sprintf($this->language->get('text_total_products'), $total_products);
         }
 
         $sort_order = array();

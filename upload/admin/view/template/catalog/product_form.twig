@@ -1124,7 +1124,7 @@
                     <option value="0">{{ text_none }}</option>
 
                       {% for category in all_categories %}
-                        <option value="{{ category.category_id }}">{{ category.name }} --- {{ text_products }}{{ category.total_products }}</option>
+                        <option value="{{ category.category_id }}">{{ category.name }} {{ category.total_products }}</option>
                       {% endfor %}
 
                   </select>
