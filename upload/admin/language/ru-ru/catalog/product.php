@@ -16,7 +16,7 @@ $_['text_option_value']      = 'Значение опции';
 $_['text_percent']           = 'Процент';
 $_['text_amount']            = 'Фиксированная сумма';
 $_['text_keyword']           = 'Должно быть уникальным на всю систему и без пробелов.';
-$_['text_total_products']    = '(Кол-во товаров: %s)';
+$_['text_total_products']    = '(%s)';
 
 // Column
 $_['column_name']            = 'Название товара';
